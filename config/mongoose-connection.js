@@ -1,12 +1,14 @@
 const monoogse = require("mongoose");
+const dbgr = require("debug")("development:mongoose-connection");
+const config = require("config"); //config checks for the environment and loads the appropriate configuration file e.g. development.json, production.json, etc.
 
 monoogse
-  .connect("mongodb://127.0.0.1:27017/scatch")
+  .connect(`${config.get("MONGODB_URI")}/scatch`)
   .then(() => {
-    console.log("Connected to database");
+    dbgr("Connected to database");
   })
   .catch((err) => {
-    console.log("Error connecting to database", err);
+    dbgr("Error connecting to database", err);
   });
 
 module.exports = monoogse.connection;
